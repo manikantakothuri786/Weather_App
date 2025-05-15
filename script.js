@@ -9,27 +9,36 @@ const searchEl = document.querySelector(".btn");
 
 //Image
 const imgEl = document.querySelector(".weather-icon");
-const tempEl = document.querySelector("#deg");
+const tempEl = document.querySelector("#deg-value");
 const cityEl = document.querySelector(".city");
 
 //Details
-const humidityEl = document.querySelector(".humid");
-const windEl = document.querySelector(".wind");
+const humidityEl = document.querySelector(".humid-value");
+const windEl = document.querySelector(".wind-value");
 
 searchEl.addEventListener("click", async function () {
   const city = inputEl.value;
 
   //Fetching data
+  document.querySelector(".error").style.display = "none";
   try {
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`,
       { method: "GET" }
     );
-    if (response.status == 404)
-      document.querySelector(".error").style.display = "block";
+    console.log(response);
+
     if (!response.ok) {
       document.querySelector(".error").style.display = "block";
       document.querySelector(".error").textContent = "Enter a valid city name";
+
+      //Default values
+      console.log(tempEl);
+      tempEl.textContent = "--";
+      cityEl.textContent = "-";
+      humidityEl.textContent = "-";
+      windEl.textContent = "-";
+      imgEl.src = "images/rain.png";
       console.error("Unable to fetch data");
       return;
     }
@@ -45,10 +54,10 @@ searchEl.addEventListener("click", async function () {
     const [{ main: des }] = data.weather;
     console.log(des);
 
-    tempEl.textContent = Math.round(temp) + "°C";
+    tempEl.textContent = Math.round(temp);
     cityEl.textContent = cityName;
-    humidityEl.textContent = humidity + "%";
-    windEl.textContent = speed + " Km/h";
+    humidityEl.textContent = humidity;
+    windEl.textContent = speed;
 
     //Image
     if (des == "Clouds") imgEl.src = "images/clouds.png";
@@ -60,6 +69,8 @@ searchEl.addEventListener("click", async function () {
 
     document.querySelector(".weather").style.display = "block";
   } catch (err) {
+    if (err.status == 400)
+      document.querySelector(".error").style.display = "block";
     console.error("Something went wrong", err);
   }
 });
