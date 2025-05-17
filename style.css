@@ -108,10 +108,6 @@ body {
   font-size: 1.6rem;
 }
 
-.weather {
-  /* display: none; */
-}
-
 .error {
   text-align: left;
   margin-left: 10px;
@@ -123,7 +119,7 @@ body {
 /* ********************************* */
 /* Media Queries for Medium Mobiles */
 /* ********************************* */
-
+/* below 500px */
 @media (max-width: 30em) {
   .card {
     width: 95%;
@@ -134,5 +130,25 @@ body {
   }
   .search btn {
     width: 20%;
+  }
+}
+
+/* ********************************* */
+/* Media Queries for Medium Mobiles */
+/* ********************************* */
+/* below 336px */
+
+@media (max-width: 21em) {
+  html {
+    font-size: 50%;
+  }
+  .btn {
+    padding: 12px 12px;
+  }
+
+  .details {
+    flex-direction: column;
+    row-gap: 1.6rem;
+    align-items: flex-start;
   }
 }
